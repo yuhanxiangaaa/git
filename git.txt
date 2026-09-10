@@ -36,5 +36,5 @@ origin  git@github.com:michaelliao/learn-git.git (push)
 $ git remote rm origin
 此处的“删除”其实是解除了本地和远程的绑定关系，并不是物理上删除了远程库。远程库本身并没有任何改动。要真正删除远程库，需要登录到GitHub，在后台页面找到删除按钮再删除。
 
-## clone 用 443 端口 SSH 地址（推荐，和咱们前面一套配置保持一致） 克隆
+## clone 用 443 端口 SSH 地址（推荐，和咱们前面一套配置保持一致） 克隆自己的远程库下载**整个仓库（所有文件 + 全部提交历史）**，不能直接 clone 单个文件
 git clone ssh://git@ssh.github.com:443/yujanxiangaaa/gitskills.git
