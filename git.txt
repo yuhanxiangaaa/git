@@ -39,10 +39,11 @@ $ git remote rm origin
 ## clone 用 443 端口 SSH 地址（推荐，和咱们前面一套配置保持一致） 克隆自己的远程库下载**整个仓库（所有文件 + 全部提交历史）**，不能直接 clone 单个文件
 git clone ssh://git@ssh.github.com:443/yujanxiangaaa/gitskills.git
 
+
 > 远程仓库版本 比你本地新 → 必须先拉取远程更新合并，再 push。
 # 1. 拉取远程代码，合并到本地master
 git pull origin master
-如果弹出 Vim 编辑器（要求填写合并注释）：
+ 如果弹出 Vim 编辑器（要求填写合并注释）：
 直接按 `Esc`，输入 `:wq` 回车保存退出。
-# 2. 合并完成后，再次推送
+2. 合并完成后，再次推送
 git push
