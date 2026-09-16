@@ -3,19 +3,14 @@
 使用命令git add <file>，注意，可反复多次使用，添加多个文件；
 使用命令git commit -m <message>，完成。
 要随时掌握工作区的状态，使用git status命令。
-如果git status告诉你有文件被修改过，用git diff可以查看修改内容。
+如果git status告诉你有文件被修改过，用git diff可以查看改了但还没add的文件修改内容。
+git diff --cached 看已经 add，准备commit的改动
 HEAD指向的版本就是当前版本，因此，Git允许我们在版本的历史之间穿梭，使用命令git reset --hard commit_id。
 穿梭前，用git log可以查看提交历史，以便确定要回退到哪个版本。
 要重返未来，用git reflog查看命令历史，以便确定要回到未来的哪个版本。
 场景1：当你改乱了工作区某个文件的内容，想直接丢弃工作区的修改时，用命令git checkout -- file。
 场景2：当你不但改乱了工作区某个文件的内容，还添加到了暂存区时，想丢弃修改，分两步，第一步用命令git reset HEAD <file>，就回到了场景1，第二步按场景1操作。
 命令git rm用于删除一个文件。如果一个文件已经被提交到版本库，那么你永远不用担心误删，但是要小心，你只能恢复文件到最新版本，你会丢失最近一次提交后你修改的内容。
-
-### 确认删除，把删除操作提交进版本库（如果你确实不要这两个文件）
-# 暂存删除
-git add LICENSE.txt readme.txt
-# 提交到本地仓库
-git commit -m "remove readme and license"
 
 ### 修改远程仓库地址，换成 443 端口版本
 # 先删掉旧的origin
@@ -36,14 +31,20 @@ origin  git@github.com:michaelliao/learn-git.git (push)
 $ git remote rm origin
 此处的“删除”其实是解除了本地和远程的绑定关系，并不是物理上删除了远程库。远程库本身并没有任何改动。要真正删除远程库，需要登录到GitHub，在后台页面找到删除按钮再删除。
 
-## clone 用 443 端口 SSH 地址（推荐，和咱们前面一套配置保持一致） 克隆自己的远程库下载**整个仓库（所有文件 + 全部提交历史）**，不能直接 clone 单个文件
+拉取用https
+git remote add origin https://github.com/yuhanxiangaaa/git.git
+
+## clone 用 443 端口 SSH 地址（推荐，和咱们前面一套配置保持一致） 克隆
 git clone ssh://git@ssh.github.com:443/yujanxiangaaa/gitskills.git
 
+git switch main            # 切换到 main 分支
+git switch -c 新分支名      # 新建分支并立刻切换过去
 
-> 远程仓库版本 比你本地新 → 必须先拉取远程更新合并，再 push。
-# 1. 拉取远程代码，合并到本地master
-git pull origin master
- 如果弹出 Vim 编辑器（要求填写合并注释）：
-直接按 `Esc`，输入 `:wq` 回车保存退出。
-2. 合并完成后，再次推送
-git push
+git pull --rebase origin main
+拉取远程 `main` 分支最新代码，并且用 rebase 方式，把你本地的提交 “叠在” 远程最新提交的后面，而不是生成一个合并 commit
+# 1. git fetch origin main
+# 去服务器把远程 main 的最新代码下载到本地（不会自动合并）
+# 2. git rebase origin/main
+# 变基：把你本地分支上的提交，重新放在 origin/main 的后面
+
+# git rebase -i HEAD~4      交互式变基，编辑最近 4 个提交
